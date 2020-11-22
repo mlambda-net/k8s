@@ -1,0 +1,57 @@
+
+alertmanager:
+  
+  persistentVolume:
+    enabled: true  
+    size: 100M
+
+  replicaCount: 1
+
+  resources: 
+     limits:
+       cpu: 10m
+       memory: 32Mi
+     requests:
+       cpu: 10m
+       memory: 32Mi
+
+nodeExporter:  
+  resources: 
+     limits:
+       cpu: 200m
+       memory: 50Mi
+     requests:
+       cpu: 100m
+       memory: 30Mi
+
+server:
+  persistentVolume:
+    size: 100M
+
+  replicaCount: 1
+
+  resources: 
+     limits:
+       cpu: 100m
+       memory: 100Mi
+     requests:
+       cpu: 100m
+       memory: 100Mi
+
+  retention: "1d"
+
+pushgateway:
+  replicaCount: 1
+  
+  resources: 
+     limits:
+       cpu: 10m
+       memory: 32Mi
+     requests:
+       cpu: 10m
+       memory: 32Mi
+
+  persistentVolume:
+    size: 100M
+
+
