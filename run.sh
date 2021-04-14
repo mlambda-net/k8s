@@ -1,8 +1,8 @@
 
 #install nginx
-helm repo add nginx-stable https://helm.nginx.com/stable
+helm repo add nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
-helm install my nginx-stable/nginx-ingress
+helm install nginx nginx/ingress-nginx --set controller.publishService.enabled=true
 
 #install cert-manager
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.yaml
@@ -13,19 +13,15 @@ kubectl apply -f issuer-prod.yaml
 
 
 #prometheus
-
-kubectl create namespace metrics
-
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add prometheus https://prometheus-community.github.io/helm-charts
 helm repo update
-helm install prometheus prometheus-community/prometheus  -f ./prometheus-values.yaml
+helm install prometheus prometheus/prometheus  -f ./prometheus-values.yaml
 
-#eks
 
-#https://logz.io/blog/deploying-the-elk-stack-on-kubernetes-with-helm/
+kubectl create secret generic logzio-secret \
+--from-literal=logzio-token='$LOGZ_TOKEN' \
+--from-literal=logzio-listener='https://listener.logz.io:8071' \
+-n default
 
-helm repo add elastic https://Helm.elastic.co
-kubectl create namespace logs
-kubectl apply -f volume.yaml
-helm install elasticsearch elastic/elasticsearch -f ./elastic-values.yaml
-
+kubectl create -f logconfig.yaml
+kubectl create -f logzio-daemonset.yaml
