@@ -12,6 +12,11 @@ kubectl apply -f issuer-dev.yaml
 kubectl apply -f issuer-prod.yaml
 
 
+#grafana
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm install loki grafana/loki  -f ./grafana-values.yaml
+
 #prometheus
 helm repo add prometheus https://prometheus-community.github.io/helm-charts
 helm repo update
