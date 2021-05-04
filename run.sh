@@ -12,7 +12,7 @@ helm install cert-manager jetstack/cert-manager --namespace cert-manager --versi
 
 
 
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.yaml
+#kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.yaml
 
 #create the issuer
 kubectl apply -f issuer-dev.yaml
