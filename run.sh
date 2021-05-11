@@ -1,15 +1,19 @@
+#install traefik
+
+helm repo add traefik https://helm.traefik.io/traefik
+helm repo update
+helm install traefik traefik/traefik -f ./traefik-values.yaml
+
 
 #install nginx
 helm repo add nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
-helm install nginx nginx/ingress-nginx --set controller.publishService.enabled=true
+helm install nginx nginx/ingress-nginx -f nginx-values.yaml
 
 #install cert-manager
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.2.0 --set installCRDs=true
-
-
 
 
 #kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.yaml
@@ -32,11 +36,11 @@ helm install prometheus prometheus/prometheus  -f ./prometheus-values.yaml
 
 kubectl create secret generic logzio-secret \
 --from-literal=logzio-token=$LOGZ_TOKEN \
---from-literal=logzio-listener='https://listener.logz.io:8071' \
+--from-literal=logzio-listener='https://listener.logz.io' \
 -n default
 
-kubectl create -f logconfig.yaml
-kubectl create -f logzio-daemonset.yaml
+kubectl apply -f logconfig.yaml
+kubectl apply -f logzio-daemonset.yaml
 
 #metrics api
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
